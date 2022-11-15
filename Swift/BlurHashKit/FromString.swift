@@ -20,7 +20,7 @@ public extension BlurHash {
 					return BlurHash.decodeDC(value)
 				} else {
 					let index = i + j * numberOfHorizontalComponents
-					let value = String(string[4 + index * 2 ..< 4 + index * 2 + 2]).decode83()
+					let value = String(string[Int(4 + index * 2) ..< Int(4 + index * 2 + 2)]).decode83()
 					return BlurHash.decodeAC(value, maximumValue: maximumValue)
 				}
 			}
