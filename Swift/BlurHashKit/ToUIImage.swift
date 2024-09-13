@@ -45,7 +45,10 @@ extension BlurHash {
 	public func cgImage(numberOfPixels: Int = 1024, originalSize size: CGSize) -> CGImage? {
 		let width: CGFloat
 		let height: CGFloat
-		if size.width > size.height {
+		if size.width == 0 || size.height == 0 {
+			width = floor(sqrt(CGFloat(numberOfPixels)) + 0.5)
+			height = width
+		} else if size.width > size.height {
 			width = floor(sqrt(CGFloat(numberOfPixels) * size.width / size.height) + 0.5)
 			height = floor(CGFloat(numberOfPixels) / width + 0.5)
 		} else {
