@@ -1,4 +1,5 @@
 import UIKit
+import BlurHashKit
 
 class SimpleViewController: UIViewController {
     @IBOutlet weak var originalImageView: UIImageView?
@@ -22,6 +23,8 @@ class SimpleViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+_ = BlurHash(string: "1%NcUo|c")! + BlurHash(string: "9~LoLK|U")!
 
         updateEncode()
         updateDecode()

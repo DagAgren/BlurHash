@@ -51,3 +51,15 @@ func min(_ a: (Float, Float, Float), _ b: (Float, Float, Float)) -> (Float, Floa
 func max(_ a: (Float, Float, Float), _ b: (Float, Float, Float)) -> (Float, Float, Float) {
     return (max(a.0, b.0), max(a.1, b.1), max(a.2, b.2))
 }
+
+func min(_ x: (Float, Float, Float)) -> Float {
+    return min(min(x.0, x.1), x.2)
+}
+
+func max(_ x: (Float, Float, Float)) -> Float {
+    return max(max(x.0, x.1), x.2)
+}
+
+func sum(_ x: (Float, Float, Float)) -> Float {
+	return x.0 + x.1 + x.2
+}

@@ -1,4 +1,5 @@
 import UIKit
+import SwiftUI
 
 extension BlurHash {
 	public init(blendingTop top: BlurHash, bottom: BlurHash) {
@@ -37,6 +38,32 @@ extension BlurHash {
 	}
 }
 
+@available(iOS 17.0, *) #Preview("blendingTop:bottom:") {
+	BlurHashPreview(BlurHash(
+		blendingTop: .init(red: 1, green: 0.5, blue: 0.5, alpha: 1),
+		bottom: .init(red: 0, green: 0.5, blue: 1, alpha: 1)
+	))
+		.background(Color.black.ignoresSafeArea())
+}
+
+@available(iOS 17.0, *) #Preview("blendingLeft:right:") {
+	BlurHashPreview(BlurHash(
+		blendingLeft: .init(red: 1, green: 0.7, blue: 1, alpha: 1),
+		right: .init(red: 0.5, green: 0.7, blue: 1, alpha: 1)
+	))
+		.background(Color.black.ignoresSafeArea())
+}
+
+@available(iOS 17.0, *) #Preview("blendingTopLeft:topRight:bottomLeft:bottomRight:") {
+	BlurHashPreview(BlurHash(
+		blendingTopLeft: .init(red: 1, green: 0.5, blue: 0.5, alpha: 1),
+		topRight: .init(red: 1, green: 0.7, blue: 1, alpha: 1),
+		bottomLeft: .init(red: 0, green: 0.5, blue: 1, alpha: 1),
+		bottomRight: .init(red: 0.5, green: 0.7, blue: 1, alpha: 1)
+	))
+		.background(Color.black.ignoresSafeArea())
+}
+
 extension BlurHash {
 	public init(horizontalColours colours: [(Float, Float, Float)], numberOfComponents: Int) {
 		guard numberOfComponents >= 1, numberOfComponents <= 9 else {
@@ -54,6 +81,10 @@ extension BlurHash {
 			return sum / Float(colours.count)
 		}])
 	}
+}
+
+@available(iOS 17.0, *) #Preview("horizontalColours:") {
+	BlurHashPreview(BlurHash(horizontalColours: [(1, 0, 0), (1, 0.5, 0), (1, 1, 0), (0, 1, 0), (0, 0, 1), (1, 0, 1)], numberOfComponents: 5))
 }
 
 extension BlurHash {
@@ -80,6 +111,16 @@ extension BlurHash {
 			}
 		})
 	}
+}
+
+@available(iOS 17.0, *) #Preview {
+	VStack {
+		BlurHashPreview(BlurHash(string: "A?MiXtR4|WsO")!)
+		BlurHashPreview(BlurHash(string: "A?MiXtR4|WsO")!.mirroredHorizontally)
+		BlurHashPreview(BlurHash(string: "A?MiXtR4|WsO")!.mirroredVertically)
+		BlurHashPreview(BlurHash(string: "A?MiXtR4|WsO")!.transposed)
+	}
+		.background(Color.black.ignoresSafeArea())
 }
 
 extension UIColor {

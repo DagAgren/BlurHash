@@ -57,17 +57,47 @@ extension BlurHash {
 }
 
 extension BlurHash {
-    public func isDark(linearRGB rgb: (Float, Float, Float), threshold: Float = 0.3) -> Bool {
-        return rgb.0 * 0.299 + rgb.1 * 0.587 + rgb.2 * 0.114 < threshold
+    static public func luminance(linearRGB rgb: (Float, Float, Float)) -> Float {
+		return sum(rgb * (0.299, 0.587, 0.114))
+	}
+
+    public var luminance: Float { return Self.luminance(linearRGB: averageLinearRGB) }
+
+    public func luminance(atX x: Float) -> Float { return Self.luminance(linearRGB: linearRGB(atX: x)) }
+    public func luminance(atY y: Float) -> Float { return Self.luminance(linearRGB: linearRGB(atY: y)) }
+    public func luminance(at position: (Float, Float)) -> Float { return Self.luminance(linearRGB: linearRGB(at: position)) }
+    public func luminance(from upperLeft: (Float, Float), to lowerRight: (Float, Float)) -> Float { return Self.luminance(linearRGB: linearRGB(from: upperLeft, to: lowerRight)) }
+    public func luminance(at upperLeft: (Float, Float), size: (Float, Float)) -> Float { return Self.luminance(linearRGB: linearRGB(at: upperLeft, size: size)) }
+}
+
+extension BlurHash {
+    static public func brightness(linearRGB rgb: (Float, Float, Float), midpoint: Float = 0.3) -> Float {
+		let luminance = luminance(linearRGB: rgb)
+		let exponent = -log2(midpoint) // Equivalent to log(midpoint) / log(0.5)
+		return pow(luminance, 1 / exponent)
+	}
+
+    public func brightness(midpoint: Float = 0.3) -> Float { return Self.brightness(linearRGB: averageLinearRGB, midpoint: midpoint) }
+
+    public func brightness(atX x: Float, midpoint: Float = 0.3) -> Float { return Self.brightness(linearRGB: linearRGB(atX: x), midpoint: midpoint) }
+    public func brightness(atY y: Float, midpoint: Float = 0.3) -> Float { return Self.brightness(linearRGB: linearRGB(atY: y), midpoint: midpoint) }
+    public func brightness(at position: (Float, Float), midpoint: Float = 0.3) -> Float { return Self.brightness(linearRGB: linearRGB(at: position), midpoint: midpoint) }
+    public func brightness(from upperLeft: (Float, Float), to lowerRight: (Float, Float), midpoint: Float = 0.3) -> Float { return Self.brightness(linearRGB: linearRGB(from: upperLeft, to: lowerRight), midpoint: midpoint) }
+    public func brightness(at upperLeft: (Float, Float), size: (Float, Float), midpoint: Float = 0.3) -> Float { return Self.brightness(linearRGB: linearRGB(at: upperLeft, size: size), midpoint: midpoint) }
+}
+
+extension BlurHash {
+    static public func isDark(linearRGB rgb: (Float, Float, Float), threshold: Float = 0.3) -> Bool {
+        return luminance(linearRGB: rgb) < threshold
     }
 
-    public func isDark(threshold: Float = 0.3) -> Bool { return isDark(linearRGB: averageLinearRGB, threshold: threshold) }
+    public func isDark(threshold: Float = 0.3) -> Bool { return Self.isDark(linearRGB: averageLinearRGB, threshold: threshold) }
 
-    public func isDark(atX x: Float, threshold: Float = 0.3) -> Bool { return isDark(linearRGB: linearRGB(atX: x), threshold: threshold) }
-    public func isDark(atY y: Float, threshold: Float = 0.3) -> Bool { return isDark(linearRGB: linearRGB(atY: y), threshold: threshold) }
-    public func isDark(at position: (Float, Float), threshold: Float = 0.3) -> Bool { return isDark(linearRGB: linearRGB(at: position), threshold: threshold) }
-    public func isDark(from upperLeft: (Float, Float), to lowerRight: (Float, Float), threshold: Float = 0.3) -> Bool { return isDark(linearRGB: linearRGB(from: upperLeft, to: lowerRight), threshold: threshold) }
-    public func isDark(at upperLeft: (Float, Float), size: (Float, Float), threshold: Float = 0.3) -> Bool { return isDark(linearRGB: linearRGB(at: upperLeft, size: size), threshold: threshold) }
+    public func isDark(atX x: Float, threshold: Float = 0.3) -> Bool { return Self.isDark(linearRGB: linearRGB(atX: x), threshold: threshold) }
+    public func isDark(atY y: Float, threshold: Float = 0.3) -> Bool { return Self.isDark(linearRGB: linearRGB(atY: y), threshold: threshold) }
+    public func isDark(at position: (Float, Float), threshold: Float = 0.3) -> Bool { return Self.isDark(linearRGB: linearRGB(at: position), threshold: threshold) }
+    public func isDark(from upperLeft: (Float, Float), to lowerRight: (Float, Float), threshold: Float = 0.3) -> Bool { return Self.isDark(linearRGB: linearRGB(from: upperLeft, to: lowerRight), threshold: threshold) }
+    public func isDark(at upperLeft: (Float, Float), size: (Float, Float), threshold: Float = 0.3) -> Bool { return Self.isDark(linearRGB: linearRGB(at: upperLeft, size: size), threshold: threshold) }
 
     public var isLeftEdgeDark: Bool { return isDark(atX: 0) }
     public var isRightEdgeDark: Bool { return isDark(atX: 1) }
