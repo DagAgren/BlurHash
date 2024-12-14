@@ -113,8 +113,8 @@ extension BlurHash {
 	var linearContrastRGB: (Float, Float, Float) {
 		let probes = 10
 		let average = averageLinearRGB
-		let absoluteAverage = sqrt(average.0 * average.0 + average.1 * average.1 + average.2 * average.2)
-		let normalisedAverage = (average.0 / absoluteAverage, average.1 / absoluteAverage, average.2 / absoluteAverage)
+		//let absoluteAverage = sqrt(average.0 * average.0 + average.1 * average.1 + average.2 * average.2)
+		//let normalisedAverage = (average.0 / absoluteAverage, average.1 / absoluteAverage, average.2 / absoluteAverage)
 		var maximumDistance: Float = 0
 		var maximumContrast: (Float, Float, Float) = averageLinearRGB
 		for y in (0 ..< probes) {
